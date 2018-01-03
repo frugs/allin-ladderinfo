@@ -52,6 +52,12 @@ async def root(request: aiohttp.web.Request) -> Union[dict, aiohttp.web.Response
         us_current_season = str(us_current_season_response.get("id", ""))
 
         eu_characters = list(user_data.get("characters", {}).get("eu", {}).values())
+        us_characters = list(user_data.get("characters", {}).get("us", {}).values())
+
+        for character in eu_characters + us_characters:
+            if not character.get("avatar", ""):
+                character["avatar"] = "http://media.blizzard.com/sc2/portraits/0-0.jpg"
+
         for character in eu_characters:
             if "ladder_info" in character:
                 ladder_info = character.get("ladder_info", {}).get(eu_current_season, {})
@@ -60,7 +66,6 @@ async def root(request: aiohttp.web.Request) -> Union[dict, aiohttp.web.Response
                 else:
                     character.pop("ladder_info")
 
-        us_characters = list(user_data.get("characters", {}).get("us", {}).values())
         for character in us_characters:
             if "ladder_info" in character:
                 ladder_info = character["ladder_info"].get(us_current_season, {})
