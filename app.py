@@ -34,7 +34,6 @@ LEAGUE_EMBLEMS = [
 async def root(request: aiohttp.web.Request) -> Union[dict, aiohttp.web.Response]:
     """This is the main landing page for the app"""
     discord_id = request.match_info['discord_id']
-
     discord_user_response = await aiohttp.request(
         "GET",
         DISCORD_BASE_URL + "users/" + discord_id,
@@ -51,6 +50,7 @@ async def root(request: aiohttp.web.Request) -> Union[dict, aiohttp.web.Response
             rand.seed(discord_id)
             r, g, b = colorsys.hsv_to_rgb(rand.uniform(0, 1), 0.5, 0.8)
             discord_avatar_background = "rgba({}, {}, {}, 255)".format(255 * r, 255 * g, 255 * b)
+        discord_username = discord_data.get("username", "")
 
         with open("firebase.cfg", "rb") as file:
             db_config = pickle.load(file)
@@ -59,6 +59,19 @@ async def root(request: aiohttp.web.Request) -> Union[dict, aiohttp.web.Response
         user_data = db.child("members").child(discord_id).get().val()
         if not user_data:
             user_data = {}
+
+        discord_guild_member_response = await aiohttp.request(
+            "GET",
+            DISCORD_BASE_URL + "guilds/154861527906779136/members/" + discord_id,
+            headers={"Authorization": "Bot " + BOT_TOKEN})
+
+        if discord_user_response.status == 200:
+            discord_guild_member_data = await discord_guild_member_response.json()
+            name = discord_guild_member_data.get("nick", "")
+        else:
+            name = ""
+        if not name:
+            name = user_data.get("discord_display_name", user_data.get("discord_server_nick", discord_username))
 
         access_token_response = await asyncio.get_event_loop().run_in_executor(
             None, sc2gamedata.get_access_token, BLIZZARD_CLIENT_KEY, BLIZZARD_CLIENT_SECRET, "us")
@@ -99,7 +112,7 @@ async def root(request: aiohttp.web.Request) -> Union[dict, aiohttp.web.Response
                     character.pop("ladder_info")
 
         return {
-            "name": user_data.get("discord_display_name", user_data.get("discord_server_nick", "")),
+            "name": name,
             "battle_tag": user_data.get("battle_tag", ""),
             "discord_avatar": discord_avatar,
             "discord_avatar_background": discord_avatar_background,
