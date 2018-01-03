@@ -11,8 +11,10 @@ import sc2gamedata
 
 from typing import Union
 
-BLIZZARD_CLIENT_KEY = os.getenv("BLIZZARD_CLIENT_KEY")
-BLIZZARD_CLIENT_SECRET = os.getenv("BLIZZARD_CLIENT_SECRET")
+BLIZZARD_CLIENT_KEY = os.getenv("BLIZZARD_CLIENT_KEY", "")
+BLIZZARD_CLIENT_SECRET = os.getenv("BLIZZARD_CLIENT_SECRET", "")
+BOT_TOKEN = os.getenv("BOT_TOKEN", "")
+
 DISCORD_BASE_URL = 'https://discordapp.com/api/v6/'
 
 
@@ -24,7 +26,7 @@ async def root(request: aiohttp.web.Request) -> Union[dict, aiohttp.web.Response
     discord_user_response = await aiohttp.request(
         "GET",
         DISCORD_BASE_URL + "users/" + discord_id,
-        headers={"Authorization": "Bot " + "MjIwNjMyODc5NjE1NDQyOTQ0.DS2nQg.0aurWqsie2PgdqLq-7g0vIdBWjE"})
+        headers={"Authorization": "Bot " + BOT_TOKEN})
 
     if discord_user_response.status == 200:
         discord_data = await discord_user_response.json()
