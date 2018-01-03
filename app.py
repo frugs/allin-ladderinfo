@@ -49,7 +49,7 @@ async def root(request: aiohttp.web.Request) -> Union[dict, aiohttp.web.Response
             discord_avatar = "static/images/discord-face.png"
             rand = random.Random()
             rand.seed(discord_id)
-            r, g, b = colorsys.hsv_to_rgb(rand.uniform(0, 1), 1, 0.8)
+            r, g, b = colorsys.hsv_to_rgb(rand.uniform(0, 1), 0.5, 0.8)
             discord_avatar_background = "rgba({}, {}, {}, 255)".format(255 * r, 255 * g, 255 * b)
 
         with open("firebase.cfg", "rb") as file:
