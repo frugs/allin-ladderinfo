@@ -59,11 +59,12 @@ async def root(request: aiohttp.web.Request) -> Union[dict, aiohttp.web.Response
 
         us_characters = list(user_data.get("characters", {}).get("us", {}).values())
         for character in us_characters:
-            ladder_info = character.get("ladder_info", {}).get(us_current_season, {})
-            if ladder_info:
-                character["ladder_info"] = ladder_info
-            else:
-                character.pop("ladder_info")
+            if "ladder_info" in character:
+                ladder_info = character["ladder_info"].get(us_current_season, {})
+                if ladder_info:
+                    character["ladder_info"] = ladder_info
+                else:
+                    character.pop("ladder_info")
 
         return {
             "name": user_data.get("discord_display_name", user_data.get("discord_server_nick", "")),
