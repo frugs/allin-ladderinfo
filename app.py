@@ -17,6 +17,16 @@ BOT_TOKEN = os.getenv("BOT_TOKEN", "")
 
 DISCORD_BASE_URL = 'https://discordapp.com/api/v6/'
 
+LEAGUE_EMBLEMS = [
+    "static/images/bronze.png",
+    "static/images/silver.png",
+    "static/images/gold.png",
+    "static/images/platinum.png",
+    "static/images/diamond.png",
+    "static/images/master.png",
+    "static/images/grandmaster.png"
+]
+
 
 @aiohttp_jinja2.template('root.html.j2')
 async def root(request: aiohttp.web.Request) -> Union[dict, aiohttp.web.Response]:
@@ -57,6 +67,10 @@ async def root(request: aiohttp.web.Request) -> Union[dict, aiohttp.web.Response
         for character in eu_characters + us_characters:
             if not character.get("avatar", ""):
                 character["avatar"] = "http://media.blizzard.com/sc2/portraits/0-0.jpg"
+
+            for races in character.get("ladder_info", {}).values():
+                for race_ladder_info in races.values():
+                    race_ladder_info["league_emblem"] = LEAGUE_EMBLEMS[race_ladder_info.get("league_id", 0)]
 
         for character in eu_characters:
             if "ladder_info" in character:

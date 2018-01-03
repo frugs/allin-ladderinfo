@@ -47,24 +47,28 @@
           {{character.clan}}
         </div>
       </div>
+
+      {% if character.ladder_info %}
+
+      {% for race, ladder_info in character.ladder_info.items() %}
+
+      <div class="character-ladder-info-container">
+          <div class="ladder-info-race-{{race|lower}}">{{race}}</div>
+          <div>League: <img class="league-emblem" src="{{ladder_info.league_emblem}}"></div>
+          <div>MMR: {{ladder_info.mmr}}</div>
+          <div>Games Played: {{ladder_info.games_played}}</div>
+          <div>Wins: {{ladder_info.wins}}</div>
+      </div>
+
+      {% endfor %}
+
+      {% endif %}
+
     </div>
 
-    {% if character.ladder_info %}
+    {% if not loop.last %}
 
-    {% for race, ladder_info in character.ladder_info.items() %}
-
-    <div class="character-ladder-info-container">
-        <div class="ladder-info-race">
-            <strong>{{race}}</strong>
-        </div>
-
-        <div>League: {{ladder_info.league_id}}</div>
-        <div>MMR: {{ladder_info.mmr}}</div>
-        <div>Games Played: {{ladder_info.games_played}}</div>
-        <div>Wins: {{ladder_info.wins}}</div>
-    </div>
-
-    {% endfor %}
+    <div class="character-container-divider"></div>
 
     {% endif %}
 
@@ -88,24 +92,28 @@
           {{character.clan}}
         </div>
       </div>
-    </div>
 
-    {% if character.ladder_info %}
+      {% if character.ladder_info %}
 
-    {% for race, ladder_info in character.ladder_info.items() %}
+      {% for race, ladder_info in character.ladder_info.items() %}
 
-    <div class="character-ladder-info-container">
-        <div class="ladder-info-race">
-            <strong>{{race}}</strong>
-        </div>
-
-        <div>League: {{ladder_info.league_id}}</div>
+      <div class="character-ladder-info-container">
+        <div class="ladder-info-race-{{race|lower}}">{{race}}</div>
+        <div>League: <img class="league-emblem" src="{{ladder_info.league_emblem}}"></div>
         <div>MMR: {{ladder_info.mmr}}</div>
         <div>Games Played: {{ladder_info.games_played}}</div>
         <div>Wins: {{ladder_info.wins}}</div>
+      </div>
+
+      {% endfor %}
+
+      {% endif %}
+
     </div>
 
-    {% endfor %}
+    {% if not loop.last %}
+
+    <div class="character-container-divider"></div>
 
     {% endif %}
 

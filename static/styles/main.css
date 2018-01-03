@@ -75,5 +75,47 @@ body {
 }
 
 .character-ladder-info-container {
-    margin: 0.5em;
+  margin: 0.5em;
+}
+
+.ladder-info-race-protoss {
+  border-radius: 5px;
+  background: #50a050;
+  color: white;
+  padding: 5px 5px 5px 1em;
+  margin: 15px 0px 5px;
+}
+
+.ladder-info-race-zerg {
+  border-radius: 5px;
+  background: #a05050;
+  color: white;
+  padding: 5px 5px 5px 1em;
+  margin: 15px 0px 5px;
+}
+
+.ladder-info-race-terran {
+  border-radius: 5px;
+  background: #5050a0;
+  color: white;
+  padding: 5px 5px 5px 1em;
+  margin: 15px 0px 5px;
+}
+
+.ladder-info-race-random {
+  border-radius: 5px;
+  background: #a0a050;
+  color: white;
+  padding: 5px 5px 5px 1em;
+  margin: 15px 0px 5px;
+}
+
+.character-container-divider {
+  height: 2em;
+}
+
+.league-emblem {
+  height: 1.2em;
+  width: 1.2em;
+  vertical-align: middle;
 }
