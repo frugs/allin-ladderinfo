@@ -1,5 +1,7 @@
 import asyncio
+import colorsys
 import os
+import random
 import pickle
 
 import aiohttp
@@ -40,7 +42,15 @@ async def root(request: aiohttp.web.Request) -> Union[dict, aiohttp.web.Response
 
     if discord_user_response.status == 200:
         discord_data = await discord_user_response.json()
-        discord_avatar = "https://cdn.discordapp.com/avatars/{}/{}".format(discord_id, discord_data['avatar'])
+        if discord_data.get("avatar", ""):
+            discord_avatar = "https://cdn.discordapp.com/avatars/{}/{}".format(discord_id, discord_data['avatar'])
+            discord_avatar_background = "white"
+        else:
+            discord_avatar = "static/images/discord-face.png"
+            rand = random.Random()
+            rand.seed(discord_id)
+            r, g, b = colorsys.hsv_to_rgb(rand.uniform(0, 1), 1, 0.8)
+            discord_avatar_background = "rgba({}, {}, {}, 255)".format(255 * r, 255 * g, 255 * b)
 
         with open("firebase.cfg", "rb") as file:
             db_config = pickle.load(file)
@@ -92,6 +102,7 @@ async def root(request: aiohttp.web.Request) -> Union[dict, aiohttp.web.Response
             "name": user_data.get("discord_display_name", user_data.get("discord_server_nick", "")),
             "battle_tag": user_data.get("battle_tag", ""),
             "discord_avatar": discord_avatar,
+            "discord_avatar_background": discord_avatar_background,
             "eu_characters": eu_characters,
             "us_characters": us_characters,
         }
