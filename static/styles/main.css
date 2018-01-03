@@ -1,0 +1,79 @@
+body {
+  background: radial-gradient(circle farthest-corner at top, #f0f0f0 5em, #c6c6c6 60em);
+  text-align: center;
+  min-height: 100vh;
+  display: block;
+  font-family: sans-serif;
+  padding: 1em;
+  font-size: 1.2em;
+  line-height: 120%;
+}
+
+.heading, .subheading {
+  padding: 20px;
+  color: black;
+  text-align: center;
+}
+
+.subsubheading {
+  padding: 5px;
+  border-radius: 5px;
+  background: #990000;
+  margin: 1em 15vw;
+  color: white;
+}
+
+.logo {
+  height: 10em;
+}
+
+.avatar {
+  margin: 2em 2em;
+  border-radius: 50%;
+  border: 5px solid black;
+  box-shadow: 5px 5px 5px rgba(0, 0, 0, .25), -5px 5px 5px rgba(0, 0, 0, .25);
+  width: 128px;
+  height: 128px;
+}
+
+.character-container {
+  margin: 0 25vw;
+  text-align: left;
+  vertical-align: middle;
+}
+
+.character-avatar {
+  margin: 0.5em 1em;
+  border-radius: 5%;
+  border: 5px solid black;
+  box-shadow: 5px 5px 5px rgba(0, 0, 0, .25), -5px 5px 5px rgba(0, 0, 0, .25);
+  width: 90px;
+  height: 90px;
+  display: inline-block;
+  vertical-align: middle;
+  text-align: left;
+}
+
+.character-name-and-clan-container {
+  display: inline-block;
+  vertical-align: middle;
+}
+
+.character-clan-name {
+  vertical-align: middle;
+  display: block;
+  text-align: left;
+  font-size: 80%;
+  color: #990000;
+}
+
+.character-name {
+  vertical-align: middle;
+  display: block;
+  text-align: left;
+  font-weight: bold;
+}
+
+.character-ladder-info-container {
+    margin: 0.5em;
+}

@@ -1,0 +1,120 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <title>All Inspiration User Settings</title>
+
+  <link rel="stylesheet" href="static/styles/main.css">
+  <link rel="icon" href="images/favicon.png">
+</head>
+
+<body>
+
+  <div class="header">
+    <img class="logo" src="static/images/allin_official.png" alt="All Inspiration">
+  </div>
+
+  <h2 class="heading">StarCraft II Ladder Info</h2>
+
+  <div class="main">
+
+    <div>{{name}} / {{battle_tag}}</div>
+
+    <div id="avatarContainer">
+        <img class="avatar" src="{{discord_avatar}}">
+    </div>
+
+    <div id="charactersHeadingContainer">
+        <h3 class="subheading">StarCraft II Characters</h3>
+    </div>
+
+    {% if us_characters %}
+
+    <h4 class="subsubheading">AM Server Characters</h4>
+
+    {% for character in us_characters %}
+
+    <div class="character-container">
+      <img class="character-avatar" src="{{character.avatar}}">
+      <div class="character-name-and-clan-container">
+        <div class="character-name">
+          {{character.name}}
+        </div>
+        <div class="character-clan-name">
+          {{character.clan}}
+        </div>
+      </div>
+    </div>
+
+    {% if character.ladder_info %}
+
+    {% for race, ladder_info in character.ladder_info.items() %}
+
+    <div class="character-ladder-info-container">
+        <div class="ladder-info-race">
+            <strong>{{race}}</strong>
+        </div>
+
+        <div>League: {{ladder_info.league_id}}</div>
+        <div>MMR: {{ladder_info.mmr}}</div>
+        <div>Games Played: {{ladder_info.games_played}}</div>
+        <div>Wins: {{ladder_info.wins}}</div>
+    </div>
+
+    {% endfor %}
+
+    {% endif %}
+
+    {% endfor %}
+
+    {% endif %}
+
+    {% if eu_characters %}
+
+    <h4 class="subsubheading">EU Server Characters</h4>
+
+    {% for character in eu_characters %}
+
+    <div class="character-container">
+      <img class="character-avatar" src="{{character.avatar}}">
+      <div class="character-name-and-clan-container">
+        <div class="character-name">
+          {{character.name}}
+        </div>
+        <div class="character-clan-name">
+          {{character.clan}}
+        </div>
+      </div>
+    </div>
+
+    {% if character.ladder_info %}
+
+    {% for race, ladder_info in character.ladder_info.items() %}
+
+    <div class="character-ladder-info-container">
+        <div class="ladder-info-race">
+            <strong>{{race}}</strong>
+        </div>
+
+        <div>League: {{ladder_info.league_id}}</div>
+        <div>MMR: {{ladder_info.mmr}}</div>
+        <div>Games Played: {{ladder_info.games_played}}</div>
+        <div>Wins: {{ladder_info.wins}}</div>
+    </div>
+
+    {% endfor %}
+
+    {% endif %}
+
+    {% endfor %}
+
+    {% endif %}
+
+  </div>
+
+</body>
+
+</html>
