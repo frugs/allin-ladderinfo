@@ -65,7 +65,7 @@ async def root(request: aiohttp.web.Request) -> Union[dict, aiohttp.web.Response
             DISCORD_BASE_URL + "guilds/154861527906779136/members/" + discord_id,
             headers={"Authorization": "Bot " + BOT_TOKEN})
 
-        if discord_user_response.status == 200:
+        if discord_guild_member_response.status == 200:
             discord_guild_member_data = await discord_guild_member_response.json()
             name = discord_guild_member_data.get("nick", "")
         else:
