@@ -120,6 +120,51 @@
     {% endfor %}
 
     {% endif %}
+    
+    {% if kr_characters %}
+
+    <h4 class="subsubheading">KR Server Characters</h4>
+
+    {% for character in kr_characters %}
+
+    <div class="character-container">
+      <img class="character-avatar" src="{{character.avatar}}">
+      <div class="character-name-and-clan-container">
+        <div class="character-name">
+          {{character.name}}
+        </div>
+        <div class="character-clan-name">
+          {{character.clan}}
+        </div>
+      </div>
+
+      {% if character.ladder_info %}
+
+      {% for race, ladder_info in character.ladder_info.items() %}
+
+      <div class="character-ladder-info-container">
+        <div class="ladder-info-race-{{race|lower}}">{{race}}</div>
+        <div>League: <img class="league-emblem" src="{{ladder_info.league_emblem}}"></div>
+        <div>MMR: {{ladder_info.mmr}}</div>
+        <div>Games Played: {{ladder_info.games_played}}</div>
+        <div>Wins: {{ladder_info.wins}}</div>
+      </div>
+
+      {% endfor %}
+
+      {% endif %}
+
+    </div>
+
+    {% if not loop.last %}
+
+    <div class="character-container-divider"></div>
+
+    {% endif %}
+
+    {% endfor %}
+
+    {% endif %}
 
   </div>
 

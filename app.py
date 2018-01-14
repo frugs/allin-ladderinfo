@@ -84,10 +84,15 @@ async def root(request: aiohttp.web.Request) -> Union[dict, aiohttp.web.Response
             None, sc2gamedata.get_current_season_data, access_token_response[0], "us")
         us_current_season = str(us_current_season_response.get("id", ""))
 
+        kr_current_season_response = await asyncio.get_event_loop().run_in_executor(
+            None, sc2gamedata.get_current_season_data, access_token_response[0], "kr")
+        kr_current_season = str(kr_current_season_response.get("id", ""))
+
         eu_characters = list(user_data.get("characters", {}).get("eu", {}).values())
         us_characters = list(user_data.get("characters", {}).get("us", {}).values())
+        kr_characters = list(user_data.get("characters", {}).get("kr", {}).values())
 
-        for character in eu_characters + us_characters:
+        for character in eu_characters + us_characters + kr_characters:
             if not character.get("avatar", ""):
                 character["avatar"] = "http://media.blizzard.com/sc2/portraits/0-0.jpg"
 
@@ -111,6 +116,14 @@ async def root(request: aiohttp.web.Request) -> Union[dict, aiohttp.web.Response
                 else:
                     character.pop("ladder_info")
 
+        for character in kr_characters:
+            if "ladder_info" in character:
+                ladder_info = character["ladder_info"].get(kr_current_season, {})
+                if ladder_info:
+                    character["ladder_info"] = ladder_info
+                else:
+                    character.pop("ladder_info")
+
         return {
             "name": name,
             "battle_tag": user_data.get("battle_tag", ""),
@@ -118,6 +131,7 @@ async def root(request: aiohttp.web.Request) -> Union[dict, aiohttp.web.Response
             "discord_avatar_background": discord_avatar_background,
             "eu_characters": eu_characters,
             "us_characters": us_characters,
+            "kr_characters": kr_characters,
         }
     else:
         return aiohttp.web.HTTPNotFound()
