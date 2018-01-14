@@ -1,4 +1,5 @@
 import asyncio
+import collections
 import colorsys
 import os
 import random
@@ -92,6 +93,12 @@ async def root(request: aiohttp.web.Request) -> Union[dict, aiohttp.web.Response
         us_characters = list(user_data.get("characters", {}).get("us", {}).values())
         kr_characters = list(user_data.get("characters", {}).get("kr", {}).values())
 
+        def sorted_ladder_info(unsorted_ladder_info: dict) -> collections.OrderedDict:
+            return collections.OrderedDict(sorted(
+                unsorted_ladder_info.items(),
+                key=lambda x: x[1]["mmr"],
+                reverse=True))
+
         for character in eu_characters + us_characters + kr_characters:
             if not character.get("avatar", ""):
                 character["avatar"] = "http://media.blizzard.com/sc2/portraits/0-0.jpg"
@@ -104,7 +111,7 @@ async def root(request: aiohttp.web.Request) -> Union[dict, aiohttp.web.Response
             if "ladder_info" in character:
                 ladder_info = character.get("ladder_info", {}).get(eu_current_season, {})
                 if ladder_info:
-                    character["ladder_info"] = ladder_info
+                    character["ladder_info"] = sorted_ladder_info(ladder_info)
                 else:
                     character.pop("ladder_info")
 
@@ -112,7 +119,7 @@ async def root(request: aiohttp.web.Request) -> Union[dict, aiohttp.web.Response
             if "ladder_info" in character:
                 ladder_info = character["ladder_info"].get(us_current_season, {})
                 if ladder_info:
-                    character["ladder_info"] = ladder_info
+                    character["ladder_info"] = sorted_ladder_info(ladder_info)
                 else:
                     character.pop("ladder_info")
 
@@ -120,9 +127,16 @@ async def root(request: aiohttp.web.Request) -> Union[dict, aiohttp.web.Response
             if "ladder_info" in character:
                 ladder_info = character["ladder_info"].get(kr_current_season, {})
                 if ladder_info:
-                    character["ladder_info"] = ladder_info
+                    character["ladder_info"] = sorted_ladder_info(ladder_info)
                 else:
                     character.pop("ladder_info")
+
+        def sort_characters_key(character_data: dict):
+            return max((race['mmr'] for race in character_data.get("ladder_info", {}).values()), default=0)
+
+        eu_characters.sort(key=sort_characters_key, reverse=True)
+        us_characters.sort(key=sort_characters_key, reverse=True)
+        kr_characters.sort(key=sort_characters_key, reverse=True)
 
         return {
             "name": name,
