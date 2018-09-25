@@ -1,11 +1,11 @@
 import setuptools
 
-VERSION = "0.0.1"
+VERSION = "0.0.2"
 
 setuptools.setup(
     name="ladderinfo",
     packages=setuptools.find_packages(),
-    package_data={"allinusersettings": ["templates/*", "static/styles/*", "static/images/*"]},
+    package_data={"ladderinfo": ["templates/*", "static/styles/*", "static/images/*"]},
     version=VERSION,
     description="Ladder Info app for All Inspiration Apps",
     author="Hugo Wainwright",
