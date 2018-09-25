@@ -103,8 +103,4 @@ venv.bak/
 
 # mypy
 .mypy_cache/
-allin-usersettings/firebase.cfg
-allin-usersettings/allinbot-79bb6061c4e1.json
 *.pem
-allinbot-79bb6061c4e1.json
-firebase.cfg
